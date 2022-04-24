@@ -87,7 +87,7 @@ function validatePin(pin) {
         return pincodes[0][newP];
     } else return false;
 }
-
+const port = process.env.PORT || 5000;
 app.listen(5000, function() {
-    console.log("listening on port 5000")
+    console.log("listening on port ", port)
 })
