@@ -1,8 +1,8 @@
 const express = require("express");
 const pincodes = require("./Pincodes.json");
 const app = express();
-app.use(express.json());
 
+app.use(express.json());
 const rateData = {
     forward: {
         a: {
@@ -54,12 +54,13 @@ const rateData = {
 
 
 
-app.get("/", (req, res) => {
-    const pin = `${req.body.pin}`;
-    const weight = +req.body.weight;
-    const deliveryType = req.body.deliveryType;
+app.get("/:deliveryType/:pin/:weight", (req, res) => {
+    console.log("request hit")
+    const pin = `${req.params.pin}`;
+    const weight = +req.params.weight;
+    const deliveryType = req.params.deliveryType;
     if (!validatePin(pin)) {
-        res.send("Invalid PIN : Delivery not available on this pincode");
+        res.send({ "error": "Invalid PIN : Delivery not available on this pincode" });
     } else {
 
         const zone = validatePin(pin);
@@ -88,6 +89,6 @@ function validatePin(pin) {
     } else return false;
 }
 const port = process.env.PORT || 5000;
-app.listen(5000, function() {
+app.listen(port, function() {
     console.log("listening on port ", port)
 })
